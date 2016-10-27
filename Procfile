@@ -1,1 +1,1 @@
-web: node lunbo.js
+web: node server.js

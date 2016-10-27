@@ -4,7 +4,6 @@
     "version": "0.4.0",
     "main": "lunbo.js",
     "engines": {
-        "node": "0.10.x",
-        "npm": "1.2.x"
+        "node": "0.10.x"
     }
 }

@@ -1,5 +1,5 @@
-body{
-
+html,body{
+    width: 100%;
     background-color: darkblue;
 }
 ul{
@@ -9,7 +9,7 @@ ul{
 
 }
 .sliderWrap{
-    width: 100%;
+    width: auto;
     height: 200px;
     overflow: hidden;
     margin: 0 auto;

@@ -1,12 +1,18 @@
 var dom = document.getElementById("slider");
 var liArr = dom.getElementsByTagName("li");
+var panel=document.getElementById("panel");
+var dots=panel.getElementsByTagName("li");
 var curWidth = window.innerWidth;
 var ulWidth = curWidth * liArr.length;
 var show = [];
 var circle = [];
 var posX,touchX;
+
 dom.style.width = ulWidth + "px";
 dom.parentNode.style.width =curWidth+"px";
+panel.parentNode.style.width =curWidth+"px";
+panel.parentNode.style.marginLeft =-curWidth/2+"px";
+
 //初始化
 function anim(goType,length){
     var res ="";
@@ -50,8 +56,7 @@ originalPos();
 
 circle.reverse();
 //导航栏控制
-var panel=document.getElementById("panel");
-var dots=panel.getElementsByTagName("li");
+
 dotsChangeColor();
 for(var i=0;i<dots.length;i++){
     dots[i].onclick=(function(i){

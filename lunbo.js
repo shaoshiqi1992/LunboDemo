@@ -112,6 +112,7 @@ function mousemove(ev){
 }
 function touchmove(e){
     //console.log(e.changedTouches[0].clientX,posX);
+    e.preventDefault();
     slide(e.changedTouches[0].clientX,touchX);
 }
 pagination.addEventListener('touchstart', function(e) {

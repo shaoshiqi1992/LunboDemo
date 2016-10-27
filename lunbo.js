@@ -6,6 +6,7 @@ var show = [];
 var circle = [];
 var posX,touchX;
 dom.style.width = ulWidth + "px";
+dom.parentNode.style.width =curWidth+"px";
 //初始化
 function anim(goType,length){
     var res ="";

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>图片轮播</title>
+    <link  rel="stylesheet" href="css/lunbo.css"/>
+</head>
+<body>
+<div class="sliderWrap">
+    <ul id="slider">
+        <li><img src="img/01.jpg" class="images" data-index="0" alt=""></li>
+        <li><img src="img/02.jpg" class="images" data-index="1" alt=""></li>
+        <li><img src="img/03.jpg" class="images" data-index="2" alt=""></li>
+    </ul>
+</div>
+<div class="pagination-panel">
+    <ul id="panel" class="pagination">
+        <li id="dot_1" class="dots"></li>
+        <li id="dot_2" class="dots"></li>
+        <li id="dot_3" class="dots"></li>
+    </ul>
+</div>
+<input type="button" value="click me" id="next" onclick="changeToNext();"/>
+</body>
+<script src="js/lunbo.js"></script>
+</html>

@@ -1,0 +1,58 @@
+body{
+
+    background-color: darkblue;
+}
+ul{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+
+}
+.sliderWrap{
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    margin: 0 auto;
+}
+.sliderWrap ul{
+    position: relative;
+    width: 100%;
+    transition: left .5s ease;
+    left: 0;
+}
+.sliderWrap li{
+    position: relative;
+    float: left;
+    width: 100%;
+}
+.sliderWrap ul li img{
+    width: 100%;
+}
+.pagination {
+    width: auto;
+    display: table;
+    margin: 180px auto 0;
+}
+.pagination-panel {
+    width: 100%;
+    height: 200px;
+    position: fixed;
+    top: 0;
+    z-index: 100;
+    cursor: pointer;
+}
+.pagination li {
+    border-radius: 15px;
+    height: 15px;
+    width: 15px;
+    background: #fff;
+    float: left;
+    margin-right: 10px;
+    list-style-type: none
+}
+.pagination li.active {
+    background: #52c6d8
+}
+.pagination li:last-child {
+    margin-right: 0
+}

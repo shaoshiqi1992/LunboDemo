@@ -1,6 +1,7 @@
 html,body{
     width: 100%;
-    background-color: darkblue;
+    overflow: hidden;
+    background-color: darkslateblue;
 }
 ul{
     margin: 0;

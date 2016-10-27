@@ -112,9 +112,11 @@ function mousemove(ev){
 }
 function touchmove(e){
     //console.log(e.changedTouches[0].clientX,posX);
-    e.preventDefault();
     slide(e.changedTouches[0].clientX,touchX);
 }
+document.body.addEventListener('touchmove', function (e) {
+    e.preventDefault();
+}, false);
 pagination.addEventListener('touchstart', function(e) {
     document.onmousemove = null;
     touchX =e.touches[0].pageX;

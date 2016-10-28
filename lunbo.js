@@ -14,22 +14,7 @@ panel.parentNode.style.width =curWidth+"px";
 panel.parentNode.style.marginLeft =-curWidth/2+"px";
 
 //初始化
-function anim(goType,length){
-    var res ="";
-    switch (goType){
-        case "goAway":
-            res="translate(-" + length +"px, 0)";
-            break;
-        case "goIn":
-            res = "translate(0, 0)";
-            break;
-        case "goPre":
-            res = "translate(" + length +"px, 0)";
-            break;
-        default:
-    }
-    return res;
-}
+
 //原始位置
 function originalPos(){
     for(var i = 0, len = liArr.length; i < len; i++){
@@ -82,14 +67,10 @@ function dotsChangeColor(num){
 }
 //鼠标滑动
 var pagination=document.getElementsByClassName("pagination-panel")[0];
-var show0P,show1P,circle0P;
 pagination.onmousedown=function(e){
     if(!e) e = window.event; //IE
     e.preventDefault();
     posX = e.clientX;
-    show0P=show[0].style.left;
-    show1P=show[1].style.left;
-    circle0P=circle[0].style.left;
     clearInterval(autoPlay);
     document.onmousemove = mousemove;
     for(var i=0; i<3;i++){
@@ -102,14 +83,12 @@ document.onmouseup = function(e)
     if(document.onmousemove){
         if(e.clientX-posX<-curWidth*0.1){
             changeToNext();
-            slideAnim();
             document.onmousemove=null;
         }else if(e.clientX-posX>curWidth*0.1) {
             changeToLast();
-            slideAnim();
             document.onmousemove = null;
         }else{
-            slideAnim();
+            slide(0,0);
             document.onmousemove = null;
         }
     }
@@ -129,9 +108,6 @@ document.body.addEventListener('touchmove', function (e) {
 pagination.addEventListener('touchstart', function(e) {
     document.onmousemove = null;
     touchX =e.touches[0].pageX;
-    show0P=show[0].style.left;
-    show1P=show[1].style.left;
-    circle0P=circle[0].style.left;
     clearInterval(autoPlay);
     for(var i=0; i<3;i++){
         changeToNext("0ms","0ms");
@@ -141,14 +117,11 @@ pagination.addEventListener('touchstart', function(e) {
 pagination.addEventListener('touchend',function(e){
     if(e.changedTouches[0].clientX-touchX<-curWidth*0.2){
         changeToNext();
-        slideAnim();
         pagination.removeEventListener('touchmove', touchmove,false);
     }else if(e.changedTouches[0].clientX-touchX>curWidth*0.2) {
         changeToLast();
-        slideAnim();
         pagination.removeEventListener('touchmove', touchmove,false);
     }else{
-        slideAnim();
         pagination.removeEventListener('touchmove', touchmove,false);
     }
     document.onmousemove =mousemove;
@@ -159,24 +132,9 @@ pagination.addEventListener('touchend',function(e){
 //鼠标滑动
 function slide(a,b){
     var len = a-b;
-    slideAnim(len,"anim");
-}
-function slideAnim(length,anim){
-
-    var len=length|| 0,a,b,c;
-
-    if(anim=="anim"){
-        a=-parseInt(show0P);
-        b=-parseInt(show1P);
-        c=-parseInt(circle0P);
-    }else{
-        a=curWidth*show[0].getAttribute("data-index");
-        b=curWidth*show[1].getAttribute("data-index");
-        c=curWidth*circle[0].getAttribute("data-index");
-    }
-    show[0].style.left= len-a + "px";
-    show[1].style.left=len-b + "px";
-    circle[0].style.left=len-c + "px";
+    show[0].style.transform="translate("+len+"px,0)";
+    show[1].style.transform="translate("+(curWidth+len)+"px,0)";
+    circle[0].style.transform="translate("+(-curWidth+len)+"px,0)";
 }
 //向左
 function changeToNext(moveOutTime,moveInTime){
@@ -210,4 +168,19 @@ function translate(dom, goType, time,length){
     dom.style.transform =anim(goType,len);
     dom.style.transitionDuration = time;
 }
-
+function anim(goType,length){
+    var res ="";
+    switch (goType){
+        case "goAway":
+            res="translate(-" + length +"px, 0)";
+            break;
+        case "goIn":
+            res = "translate(0, 0)";
+            break;
+        case "goPre":
+            res = "translate(" + length +"px, 0)";
+            break;
+        default:
+    }
+    return res;
+}

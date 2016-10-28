@@ -52,9 +52,11 @@ function originalPos(){
         }
     }
 }
-originalPos();
 
 circle.reverse();
+originalPos();
+var autoPlay=setInterval(changeToNext,3000);
+window.onload=autoPlay;
 //导航栏控制
 
 dotsChangeColor();
@@ -88,6 +90,7 @@ pagination.onmousedown=function(e){
     show0P=show[0].style.left;
     show1P=show[1].style.left;
     circle0P=circle[0].style.left;
+    clearInterval(autoPlay);
     document.onmousemove = mousemove;
     for(var i=0; i<3;i++){
         changeToNext("0ms","0ms");
@@ -110,7 +113,7 @@ document.onmouseup = function(e)
             document.onmousemove = null;
         }
     }
-
+    autoPlay=setInterval(changeToNext,3000);
 };
 function mousemove(ev){
     if(ev==null) ev = window.event;//IE
@@ -129,6 +132,7 @@ pagination.addEventListener('touchstart', function(e) {
     show0P=show[0].style.left;
     show1P=show[1].style.left;
     circle0P=circle[0].style.left;
+    clearInterval(autoPlay);
     for(var i=0; i<3;i++){
         changeToNext("0ms","0ms");
     }
@@ -148,7 +152,7 @@ pagination.addEventListener('touchend',function(e){
         pagination.removeEventListener('touchmove', touchmove,false);
     }
     document.onmousemove =mousemove;
-
+    autoPlay=setInterval(changeToNext,3000);
 },false);
 //动画效果
 

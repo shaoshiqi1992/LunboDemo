@@ -122,6 +122,7 @@ pagination.addEventListener('touchend',function(e){
         changeToLast();
         pagination.removeEventListener('touchmove', touchmove,false);
     }else{
+        slide(0,0);
         pagination.removeEventListener('touchmove', touchmove,false);
     }
     document.onmousemove =mousemove;

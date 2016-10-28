@@ -132,9 +132,9 @@ pagination.addEventListener('touchend',function(e){
 //鼠标滑动
 function slide(a,b){
     var len = a-b;
-    show[0].style.transform="translate("+len+"px,0)";
-    show[1].style.transform="translate("+(curWidth+len)+"px,0)";
-    circle[0].style.transform="translate("+(-curWidth+len)+"px,0)";
+    getTransform(show[0],"translate("+len+"px,0)");
+    getTransform(show[1],"translate("+(curWidth+len)+"px,0)");
+    getTransform(circle[0],"translate("+(-curWidth+len)+"px,0)");
 }
 //向左
 function changeToNext(moveOutTime,moveInTime){
@@ -165,8 +165,15 @@ function changeToLast(moveOutTime,moveInTime){
 }
 function translate(dom, goType, time,length){
     var len = length || curWidth;
-    dom.style.transform =anim(goType,len);
+    getTransform(dom,anim(goType,len));
     dom.style.transitionDuration = time;
+}
+function getTransform(dom,anim){
+    dom.style.transform =
+        dom.style.webkitTransform =
+            dom.style.MozTransform =
+                dom.style.msTransform =
+                    dom.style.OTransform = anim;
 }
 function anim(goType,length){
     var res ="";

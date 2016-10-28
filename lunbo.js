@@ -15,7 +15,13 @@ panel.parentNode.style.marginLeft =-curWidth/2+"px";
 
 //初始化
 
-//原始位置
+/**
+ * 原始位置
+ * 用两个数组
+ * 数组1存储在舞台上的和即将进场的图片
+ * 数组2存储其他图片
+ * 假设有4张图片，初始化数组1存储为1,2数组2存储为4,3
+ */
 function originalPos(){
     for(var i = 0, len = liArr.length; i < len; i++){
         var curLi = liArr[i];
@@ -36,14 +42,15 @@ function originalPos(){
             }
         }
     }
+    circle.reverse();
 }
-
-circle.reverse();
 originalPos();
+
+//设置定时器自动播放
 var autoPlay=setInterval(changeToNext,3000);
 window.onload=autoPlay;
-//导航栏控制
 
+//导航栏控制，点击变色
 dotsChangeColor();
 for(var i=0;i<dots.length;i++){
     dots[i].onclick=(function(i){
@@ -55,7 +62,6 @@ for(var i=0;i<dots.length;i++){
         }
     }(i));
 }
-
 //导航栏变色
 function dotsChangeColor(num){
     var i=num||show[0].getAttribute("data-index");
@@ -65,7 +71,14 @@ function dotsChangeColor(num){
     }
     dots[i].classList.add("active");
 }
-//鼠标滑动
+
+/**
+ * 鼠标滑动事件
+ * 清除定时器
+ * 记录鼠标初始位置
+ * 根据鼠标位置与其原始位置之差判断轮播操作
+ * 鼠标松开重新开始计时
+ */
 var pagination=document.getElementsByClassName("pagination-panel")[0];
 pagination.onmousedown=function(e){
     if(!e) e = window.event; //IE
@@ -73,10 +86,15 @@ pagination.onmousedown=function(e){
     posX = e.clientX;
     clearInterval(autoPlay);
     document.onmousemove = mousemove;
-    for(var i=0; i<3;i++){
+    for(var i=0; i<liArr.length;i++){
         changeToNext("0ms","0ms");
     }
 };
+//鼠标滑动动画
+function mousemove(ev){
+    if(ev==null) ev = window.event;//IE
+    slide(ev.clientX,posX);
+}
 document.onmouseup = function(e)
 {
     if(!e) e = window.event;
@@ -94,12 +112,12 @@ document.onmouseup = function(e)
     }
     autoPlay=setInterval(changeToNext,3000);
 };
-function mousemove(ev){
-    if(ev==null) ev = window.event;//IE
-    slide(ev.clientX,posX);
-}
+
+/**
+ * 移动端滑动事件
+ * 同上
+ */
 function touchmove(e){
-    //console.log(e.changedTouches[0].clientX,posX);
     slide(e.changedTouches[0].clientX,touchX);
 }
 document.body.addEventListener('touchmove', function (e) {
@@ -109,7 +127,7 @@ pagination.addEventListener('touchstart', function(e) {
     document.onmousemove = null;
     touchX =e.touches[0].pageX;
     clearInterval(autoPlay);
-    for(var i=0; i<3;i++){
+    for(var i=0; i<liArr.length;i++){
         changeToNext("0ms","0ms");
     }
     pagination.addEventListener('touchmove',touchmove,false);
@@ -128,16 +146,32 @@ pagination.addEventListener('touchend',function(e){
     document.onmousemove =mousemove;
     autoPlay=setInterval(changeToNext,3000);
 },false);
-//动画效果
 
-//鼠标滑动
+
+/**
+ * 滑动动画
+ * @method slide
+ * @param {Num} a 减数，当前位置
+ * @param {Num} b 被减数，原始位置
+ */
 function slide(a,b){
     var len = a-b;
     getTransform(show[0],"translate("+len+"px,0)");
     getTransform(show[1],"translate("+(curWidth+len)+"px,0)");
     getTransform(circle[0],"translate("+(-curWidth+len)+"px,0)");
 }
-//向左
+/**
+ * 向左移动一个image
+ * 数组第一次变换步骤为:
+ * 数组1:2;数组2:4,3
+ * 数组1:2;数组2:1,4,3
+ * 数组1:2;数组2:1,4
+ * 数组1:2,3;数组2:1,4
+ * 此后以此类推
+ * @method changeToNext
+ * @param {String}  moveOutTime，移出时间，默认为300ms
+ * @param {String}  moveInTime，移入时间，默认为300ms
+ */
 function changeToNext(moveOutTime,moveInTime){
 
     var oTime = moveOutTime||"300ms";
@@ -151,7 +185,13 @@ function changeToNext(moveOutTime,moveInTime){
     show.push(nextPre);
     dotsChangeColor();
 }
-//向右
+/**
+ * 向右移动一个image
+ * 与上一步操作相反
+ * @method changeToLast
+ * @param {String}  moveOutTime，移出时间，默认为300ms
+ * @param {String}  moveInTime，移入时间，默认为300ms
+ */
 function changeToLast(moveOutTime,moveInTime){
     var oTime = moveOutTime||"300ms";
     var iTime = moveInTime ||"300ms";
@@ -164,11 +204,24 @@ function changeToLast(moveOutTime,moveInTime){
     circle.push(nextPre);
     dotsChangeColor();
 }
-function translate(dom, goType, time,length){
-    var len = length || curWidth;
-    getTransform(dom,anim(goType,len));
+/**
+ *添加动画
+ * @method translate
+ * @param {Element} dom 操作对象
+ * @param {String} goType 动画名称
+ * @param {String} time 动画时间
+ */
+function translate(dom, goType,time){
+    getTransform(dom,anim(goType,curWidth));
     dom.style.transitionDuration = time;
 }
+/**
+ * 设置transform
+ * 设置其兼容性
+ * @method getTransform
+ * @param {Element} dom 操作对象
+ * @param {String} anim 动画名称
+ */
 function getTransform(dom,anim){
     dom.style.transform =
         dom.style.webkitTransform =
@@ -176,6 +229,13 @@ function getTransform(dom,anim){
                 dom.style.msTransform =
                     dom.style.OTransform = anim;
 }
+/**
+ * 返回动画字符串
+ * @method anim
+ * @param {String} goType 动画名称
+ * @param {String} length translate长度
+ * @return {String} translate相关字符串作动画效果
+ */
 function anim(goType,length){
     var res ="";
     switch (goType){
